@@ -67,7 +67,20 @@ static void MX_TIM1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+// FILE __stdout;
 
+typedef struct __FILE FILE;
+
+void _sys_exit(int x){
+    x = x;
+}
+
+int fputc(int ch, FILE *f){
+    char temp[1]={ch};
+    logHelper.appendStrings(&temp);
+    return ch;
+
+}
 /* USER CODE END 0 */
 
 /**
@@ -108,12 +121,14 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_USB_DEVICE_Init();
   MX_I2C2_Init();
   MX_LWIP_Init();
-  MX_USB_DEVICE_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
     pcf8574InitI2CReg((pcf8574Regs*)&pcf8574_Reg_map);
+    logHelperCreate();
+    logHelper.appendStrings("&temp");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -121,10 +136,13 @@ int main(void)
   while (1)
   {
     MX_LWIP_Process();
+    logHelper.appendStrings("&temp");
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
     // HAL_Delay(1000);
+    logHelper.Run();
   }
   /* USER CODE END 3 */
 }

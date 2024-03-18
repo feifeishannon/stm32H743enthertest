@@ -18,6 +18,7 @@ SubTimes_TypeDef subTimes={0};
 LogHelper logHelper={0};
 
 
+
 static void clearReceivedFlag(void);
 
 /**
@@ -197,7 +198,11 @@ void logHelperCreate()
   logHelper.clearReceivedFlag = clearReceivedFlag;
 	logHelper.count = 0;
   logHelper.mode = Normal;
-  HAL_TIM_Base_Start_IT((subTimes.htim));
+  if (&subTimes)
+  {
+    HAL_TIM_Base_Start_IT((subTimes.htim));
+  }
+  
 } 
 
 /**
