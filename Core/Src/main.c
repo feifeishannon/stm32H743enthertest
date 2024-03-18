@@ -113,18 +113,18 @@ int main(void)
   MX_USB_DEVICE_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-    
+    pcf8574InitI2CReg((pcf8574Regs*)&pcf8574_Reg_map);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
+    MX_LWIP_Process();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    HAL_Delay(1000);
+    // HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
@@ -236,11 +236,12 @@ static void MX_I2C2_Init(void)
   }
   /* USER CODE BEGIN I2C2_Init 2 */
     pcf8574_Reg_map.Output.all = 0xff;
+    pcf8574_Reg_map.Output.bit.ETH_RESET_IO = 1;
+    pcf8574WriteOutput((pcf8574Regs*) &pcf8574_Reg_map);
+    HAL_Delay(100);
     pcf8574_Reg_map.Output.bit.ETH_RESET_IO = 0;
     pcf8574WriteOutput((pcf8574Regs*) &pcf8574_Reg_map);
     HAL_Delay(100);
-    pcf8574_Reg_map.Output.bit.ETH_RESET_IO = 1;
-    pcf8574WriteOutput((pcf8574Regs*) &pcf8574_Reg_map);
   /* USER CODE END I2C2_Init 2 */
 
 }
@@ -339,14 +340,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PA11 PA12 */
-  GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF10_OTG1_FS;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */

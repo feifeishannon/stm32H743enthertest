@@ -87,10 +87,10 @@ typedef struct
                                     __HAL_TIM_SET_COUNTER((htim),0);
 /***************************************************************/
 
-extern uint8_t UserRxBufferHS[APP_RX_DATA_SIZE];
+extern uint8_t UserRxBufferFS[APP_RX_DATA_SIZE];
 
 /** Data to send over USB CDC are stored in this buffer   */
-extern uint8_t UserTxBufferHS[APP_TX_DATA_SIZE];
+extern uint8_t UserTxBufferFS[APP_TX_DATA_SIZE];
 
 extern SubTimes_TypeDef subTimes;
 extern LogHelper logHelper;

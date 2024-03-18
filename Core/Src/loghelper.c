@@ -68,35 +68,35 @@ static void print(const char* format, ...) {
   va_list args;
   uint32_t length;
   va_start(args, format);
-    length = vsnprintf((char *)UserTxBufferHS, APP_TX_DATA_SIZE, (char *)format, args);
+    length = vsnprintf((char *)UserTxBufferFS, APP_TX_DATA_SIZE, (char *)format, args);
   va_end(args);
-  CDC_Transmit_HS(UserTxBufferHS, length);
+  CDC_Transmit_FS(UserTxBufferFS, length);
 }
 
 static void println(const char* format, ...) {
   va_list args;
   uint32_t length;
   va_start(args, format);
-    length = vsnprintf((char *)UserTxBufferHS, APP_TX_DATA_SIZE, (char *)format, args);
+    length = vsnprintf((char *)UserTxBufferFS, APP_TX_DATA_SIZE, (char *)format, args);
   va_end(args);
   if (length < APP_TX_DATA_SIZE -2){
-    strcat((char*)UserTxBufferHS, "\r\n");
-    // UserTxBufferHS[length] = '\r';
-    // UserTxBufferHS[length+1] = '\n';
+    strcat((char*)UserTxBufferFS, "\r\n");
+    // UserTxBufferFS[length] = '\r';
+    // UserTxBufferFS[length+1] = '\n';
   }
-  CDC_Transmit_HS(UserTxBufferHS, length+2);
+  CDC_Transmit_FS(UserTxBufferFS, length+2);
 }
 
 static void printtab(const char* format, ...) {
   va_list args;
   uint32_t length;
   va_start(args, format);
-    length = vsnprintf((char *)UserTxBufferHS, APP_TX_DATA_SIZE, (char *)format, args);
+    length = vsnprintf((char *)UserTxBufferFS, APP_TX_DATA_SIZE, (char *)format, args);
   va_end(args);
   if (length < APP_TX_DATA_SIZE -1){
-    UserTxBufferHS[length] = '\t';
+    UserTxBufferFS[length] = '\t';
   }
-  CDC_Transmit_HS(UserTxBufferHS, length+1);
+  CDC_Transmit_FS(UserTxBufferFS, length+1);
   
 }
 
@@ -130,15 +130,15 @@ static void checkReceive(){
 }
 static void changeMode(){
   if(logHelper.logDataReceived){
-    if (strcmp((char*)UserRxBufferHS, "test") == 0) {
+    if (strcmp((char*)UserRxBufferFS, "test") == 0) {
         logHelper.mode = Test;
-    } else if (strcmp((char*)UserRxBufferHS, "check") == 0) {
+    } else if (strcmp((char*)UserRxBufferFS, "check") == 0) {
         logHelper.mode = Check;
     } else {
         logHelper.mode = Normal;
     }
     clearReceivedFlag();
-    memset(UserRxBufferHS,0,sizeof(UserRxBufferHS));
+    memset(UserRxBufferFS,0,sizeof(UserRxBufferFS));
 
   }
 }
@@ -160,7 +160,7 @@ void Run(){
 }
 
 // 在回调函数中检查发送是否完成
-static void CDC_TransmitCplt_HS(uint8_t status) {
+static void CDC_TransmitCplt_FS(uint8_t status) {
   if (status == USBD_OK) {
     // 数据发送完成
     dataTransmitted = 1;
