@@ -27,6 +27,7 @@
 // #include <stdio.h>
 #include "loghelper.h"
 #include "pcf8574.h"
+#include "debug.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,6 +51,8 @@ I2C_HandleTypeDef hi2c2;
 
 TIM_HandleTypeDef htim1;
 
+UART_HandleTypeDef huart1;
+
 /* USER CODE BEGIN PV */
 volatile pcf8574Regs pcf8574_Reg_map;
 
@@ -59,6 +62,7 @@ volatile pcf8574Regs pcf8574_Reg_map;
 void SystemClock_Config(void);
 static void MPU_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_USART1_UART_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
@@ -69,7 +73,14 @@ static void MX_TIM1_Init(void);
 /* USER CODE BEGIN 0 */
 // FILE __stdout;
 
-typedef struct __FILE FILE;
+// typedef struct __FILE FILE;
+
+struct __FILE 
+{
+  int handle; 
+};
+
+FILE __stdout;
 
 void _sys_exit(int x){
     x = x;
@@ -78,6 +89,9 @@ void _sys_exit(int x){
 int fputc(int ch, FILE *f){
     char temp[1]={ch};
     logHelper.appendStrings(&temp);
+
+    HAL_UART_Transmit_IT(&huart1,(uint8_t *)&ch,1);
+    while(__HAL_UART_GET_FLAG(&huart1, UART_FLAG_TC) == RESET){}
     return ch;
 
 }
@@ -116,27 +130,35 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
+    logHelperCreate();
     
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_USART1_UART_Init();
   MX_USB_DEVICE_Init();
   MX_I2C2_Init();
   MX_LWIP_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
     pcf8574InitI2CReg((pcf8574Regs*)&pcf8574_Reg_map);
-    logHelperCreate();
-    logHelper.appendStrings("&temp");
+    logHelper.appendStringln("start");
+    
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    static uint32_t temptimes = 0;
+    temptimes++;
     MX_LWIP_Process();
-    logHelper.appendStrings("&temp");
+    if(temptimes %1000000 == 0){
+      // logHelper.appendStrings("&temp");
+      // printf("&temp");
+    }
+      
 
     /* USER CODE END WHILE */
 
@@ -312,6 +334,54 @@ static void MX_TIM1_Init(void)
 }
 
 /**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart1.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_UARTEx_SetTxFifoThreshold(&huart1, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_UARTEx_SetRxFifoThreshold(&huart1, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_UARTEx_DisableFifoMode(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -351,14 +421,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(LED0_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PA9 PA10 */
-  GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */

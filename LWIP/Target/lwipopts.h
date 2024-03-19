@@ -49,6 +49,10 @@
 /* Parameters set in STM32CubeMX LwIP Configuration GUI -*/
 /*----- Default value in ETH configuration GUI in CubeMx: 1524 -----*/
 #define ETH_RX_BUFFER_SIZE 1536
+/*----- Default Value for LWIP_UDP: 1 ---*/
+#define LWIP_UDP 0
+/*----- Value in opt.h for LWIP_TCP: 1 -----*/
+#define LWIP_TCP 0
 /*----- Value in opt.h for NO_SYS: 0 -----*/
 #define NO_SYS 1
 /*----- Value in opt.h for SYS_LIGHTWEIGHT_PROT: 1 -----*/
@@ -79,8 +83,12 @@
 #define LWIP_SOCKET 0
 /*----- Value in opt.h for RECV_BUFSIZE_DEFAULT: INT_MAX -----*/
 #define RECV_BUFSIZE_DEFAULT 2000000000
-/*----- Value in opt.h for LWIP_STATS: 1 -----*/
-#define LWIP_STATS 0
+/*----- Default Value for LWIP_STATS: 0 ---*/
+#define LWIP_STATS 1
+/*----- Default Value for LWIP_STATS_DISPLAY: 0 ---*/
+#define LWIP_STATS_DISPLAY 1
+/*----- Value in opt.h for MIB2_STATS: 0 or SNMP_LWIP_MIB2 -----*/
+#define MIB2_STATS 0
 /*----- Value in opt.h for CHECKSUM_GEN_IP: 1 -----*/
 #define CHECKSUM_GEN_IP 0
 /*----- Value in opt.h for CHECKSUM_GEN_UDP: 1 -----*/
@@ -159,6 +167,30 @@
 #define AUTOIP_DEBUG LWIP_DBG_ON
 /*----- Default Value for DNS_DEBUG: LWIP_DBG_OFF ---*/
 #define DNS_DEBUG LWIP_DBG_ON
+/*----- Default Value for PPP_DEBUG: LWIP_DBG_OFF ---*/
+#define PPP_DEBUG LWIP_DBG_ON
+/*----- Default Value for IP6_DEBUG: LWIP_DBG_OFF ---*/
+#define IP6_DEBUG LWIP_DBG_ON
+/*----- Default Value for DHCP6_DEBUG: LWIP_DBG_OFF ---*/
+#define DHCP6_DEBUG LWIP_DBG_ON
+/*----- Default Value for HTTPD_DEBUG: LWIP_DBG_OFF ---*/
+#define HTTPD_DEBUG LWIP_DBG_ON
+/*----- Default Value for HTTPD_DEBUG_TIMING: LWIP_DBG_OFF ---*/
+#define HTTPD_DEBUG_TIMING LWIP_DBG_ON
+/*----- Default Value for SNMP_DEBUG: LWIP_DBG_OFF ---*/
+#define SNMP_DEBUG LWIP_DBG_ON
+/*----- Default Value for SNMP_MIB_DEBUG: LWIP_DBG_OFF ---*/
+#define SNMP_MIB_DEBUG LWIP_DBG_ON
+/*----- Default Value for SNTP_DEBUG: LWIP_DBG_OFF ---*/
+#define SNTP_DEBUG LWIP_DBG_ON
+/*----- Default Value for SMTP_DEBUG: LWIP_DBG_OFF ---*/
+#define SMTP_DEBUG LWIP_DBG_ON
+/*----- Default Value for MDNS_DEBUG: LWIP_DBG_OFF ---*/
+#define MDNS_DEBUG LWIP_DBG_ON
+/*----- Default Value for TFTP_DEBUG: LWIP_DBG_OFF ---*/
+#define TFTP_DEBUG LWIP_DBG_ON
+/*----- Default Value for LWIP_TESTMODE: 0 ---*/
+#define LWIP_TESTMODE 1
 /*-----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
 

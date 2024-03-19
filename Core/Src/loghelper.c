@@ -198,7 +198,7 @@ void logHelperCreate()
   logHelper.clearReceivedFlag = clearReceivedFlag;
 	logHelper.count = 0;
   logHelper.mode = Normal;
-  if (&subTimes)
+  if (subTimes.subtimeState)
   {
     HAL_TIM_Base_Start_IT((subTimes.htim));
   }
@@ -278,7 +278,7 @@ void SubTimesCreate( TIM_HandleTypeDef *htim)
 	subTimes.TimeSubTimeValueClear  = TimeSubTimeValueClear;
 	subTimes.GetSubTimeOutValue     = GetSubTimeOutValue;
 	subTimes.GetSubTimeValue        = GetSubTimeValue;
-  
+  subTimes.subtimeState           = 1;
 
 } 
 

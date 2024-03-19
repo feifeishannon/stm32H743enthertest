@@ -15,7 +15,7 @@
 #include <stdint.h>
 #include "stm32h7xx_hal.h"
 
-#define INITIAL_BUFFER_SIZE 1000
+#define INITIAL_BUFFER_SIZE 10000
 #define POP_STRING_SIZE     500
 
 
