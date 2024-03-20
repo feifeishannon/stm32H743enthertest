@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "pcf8574.h": "c"
+        "pcf8574.h": "c",
+        "main.h": "c",
+        "stm32h7xx_hal.h": "c",
+        "stm32h7xx_hal_conf.h": "c",
+        "stm32h7xx_hal_rcc.h": "c",
+        "lwip.h": "c",
+        "netif.h": "c"
     }
 }

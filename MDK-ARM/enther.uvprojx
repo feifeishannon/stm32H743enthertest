@@ -405,6 +405,11 @@
               <FilePath>..\Core\Src\pcf8574.c</FilePath>
             </File>
             <File>
+              <FileName>tcp_echoserver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\tcp_echoserver.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>
