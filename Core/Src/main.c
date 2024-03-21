@@ -28,6 +28,8 @@
 #include "loghelper.h"
 #include "pcf8574.h"
 #include "debug.h"
+#include "tcp_echoserver.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -143,8 +145,10 @@ int main(void)
   MX_LWIP_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-    pcf8574InitI2CReg((pcf8574Regs*)&pcf8574_Reg_map);
-    logHelper.appendStringln("start");
+  pcf8574InitI2CReg((pcf8574Regs*)&pcf8574_Reg_map);
+  logHelper.appendStringln("start");
+  tcp_echoserver_init();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

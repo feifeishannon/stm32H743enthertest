@@ -6,6 +6,7 @@
         "stm32h7xx_hal_conf.h": "c",
         "stm32h7xx_hal_rcc.h": "c",
         "lwip.h": "c",
-        "netif.h": "c"
+        "netif.h": "c",
+        "tcp_echoserver.h": "c"
     }
 }

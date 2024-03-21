@@ -8,12 +8,14 @@ static err_t tcp_echoserver_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p
 
 static struct tcp_pcb *tcp_echoserver_pcb;
 
+#define PORT 7
+
 void tcp_echoserver_init(void){
     err_t err;
     tcp_echoserver_pcb = tcp_new();
     if (tcp_echoserver_pcb != NULL)
     {
-        err = tcp_bind(tcp_echoserver_pcb, IP_ADDR_ANY, 7);
+        err = tcp_bind(tcp_echoserver_pcb, IP_ADDR_ANY, PORT);
         if(err == ERR_OK){
             tcp_echoserver_pcb = tcp_listen(tcp_echoserver_pcb);
             tcp_accept(tcp_echoserver_pcb, tcp_echoserver_accept);
